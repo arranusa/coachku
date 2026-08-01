@@ -1,25 +1,39 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <!-- Background -->
-  <rect width="512" height="512" rx="112" fill="#0f172a"/>
-  <!-- Green gradient accent bar -->
-  <rect x="0" y="360" width="512" height="152" rx="112" fill="#10b981" opacity="0.15"/>
-  <rect x="0" y="400" width="512" height="112" rx="0" fill="#10b981" opacity="0.1"/>
-  <rect x="0" y="400" width="512" height="112" rx="112" fill="#10b981" opacity="0.1"/>
-  <!-- Dumbbell icon -->
-  <!-- Left weight plate outer -->
-  <rect x="60" y="200" width="52" height="112" rx="18" fill="#10b981"/>
-  <!-- Left weight plate inner -->
-  <rect x="76" y="220" width="20" height="72" rx="8" fill="#0f172a"/>
-  <!-- Left bar -->
-  <rect x="112" y="240" width="56" height="32" rx="6" fill="#34d399"/>
+  <!-- White base with rounded corners -->
+  <rect width="512" height="512" rx="96" fill="white"/>
+
+  <!-- Dark green top section -->
+  <path d="M96,0 H416 Q512,0 512,96 V288 H0 V96 Q0,0 96,0 Z" fill="#0d1f10"/>
+
+  <!-- Dumbbell: left plate -->
+  <rect x="72" y="96" width="52" height="116" rx="14" fill="#2d6b3c"/>
+  <!-- Left plate inner cutout -->
+  <rect x="88" y="114" width="22" height="80" rx="7" fill="#0d1f10"/>
+  <!-- Left bar connector -->
+  <rect x="124" y="128" width="52" height="52" rx="7" fill="#3d8b4e"/>
   <!-- Center bar -->
-  <rect x="168" y="232" width="176" height="48" rx="8" fill="#6ee7b7"/>
-  <!-- Right bar -->
-  <rect x="344" y="240" width="56" height="32" rx="6" fill="#34d399"/>
-  <!-- Right weight plate outer -->
-  <rect x="400" y="200" width="52" height="112" rx="18" fill="#10b981"/>
-  <!-- Right weight plate inner -->
-  <rect x="416" y="220" width="20" height="72" rx="8" fill="#0f172a"/>
-  <!-- Text: CK -->
-  <text x="256" y="448" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="80" fill="#10b981" text-anchor="middle" letter-spacing="4">CK</text>
+  <rect x="176" y="122" width="160" height="64" rx="10" fill="#4aaa62"/>
+  <!-- Right bar connector -->
+  <rect x="336" y="128" width="52" height="52" rx="7" fill="#3d8b4e"/>
+  <!-- Right plate -->
+  <rect x="388" y="96" width="52" height="116" rx="14" fill="#2d6b3c"/>
+  <!-- Right plate inner cutout -->
+  <rect x="402" y="114" width="22" height="80" rx="7" fill="#0d1f10"/>
+
+  <!-- CK text with white outline for readability -->
+  <text x="258" y="472"
+        font-family="Arial Black, Impact, Arial, sans-serif"
+        font-weight="900"
+        font-size="280"
+        fill="white"
+        stroke="white"
+        stroke-width="12"
+        text-anchor="middle">CK</text>
+  <!-- CK text main color (dark green) -->
+  <text x="258" y="472"
+        font-family="Arial Black, Impact, Arial, sans-serif"
+        font-weight="900"
+        font-size="280"
+        fill="#1a4a25"
+        text-anchor="middle">CK</text>
 </svg>
