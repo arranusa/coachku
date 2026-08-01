@@ -7,9 +7,7 @@ const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
-  '/icons/icon.svg',
+  '/icons/android/launchericon-192x192.png',
 ];
 
 // Install: cache static assets
@@ -104,7 +102,7 @@ self.addEventListener('fetch', (event) => {
         }).catch(() => {
           // Return placeholder for images
           if (url.pathname.match(/\.(png|jpg|jpeg|gif)$/)) {
-            return caches.match('/icons/icon-192.png');
+            return caches.match('/icons/android/launchericon-192x192.png');
           }
           return new Response('', { status: 503 });
         });
@@ -141,8 +139,8 @@ self.addEventListener('push', (event) => {
   event.waitUntil(
     self.registration.showNotification(data.title || 'CoachKu', {
       body: data.body || 'Ada notifikasi baru untuk Anda',
-      icon: '/icons/icon-192.png',
-      badge: '/icons/icon-192.png',
+      icon: '/icons/android/launchericon-192x192.png',
+      badge: '/icons/android/launchericon-192x192.png',
       tag: data.tag || 'coachku-notification',
       data: data,
     })
