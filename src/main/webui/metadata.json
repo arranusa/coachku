@@ -1,0 +1,6 @@
+{
+  "name": "COACHKU - On-Demand Gym Coaching",
+  "description": "Mobile-first PWA platform connecting gym coaches with clients in Indonesia, featuring workout monitoring, meal tracking, session renewal, and schedule management.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
