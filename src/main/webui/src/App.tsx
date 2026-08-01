@@ -108,32 +108,61 @@ export default function App() {
 
   const [showPWAPrompt, setShowPWAPrompt] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [isIOS, setIsIOS] = useState(false);
 
   useEffect(() => {
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('/sw.js', { scope: '/' })
+        .then((registration) => {
+          console.log('[PWA] Service worker registered:', registration.scope);
+        })
+        .catch((err) => {
+          console.error('[PWA] Service worker registration failed:', err);
+        });
+    }
+
     const checkIsStandalone = () => {
       return (
         window.matchMedia("(display-mode: standalone)").matches ||
         window.matchMedia("(display-mode: fullscreen)").matches ||
         window.matchMedia("(display-mode: minimal-ui)").matches ||
-        ("standalone" in navigator && (navigator as any).standalone === true) ||
+        ('standalone' in navigator && (navigator as any).standalone === true) ||
         document.referrer.includes('android-app://')
       );
     };
-      
-    // Always show prompt if not installed yet (both desktop and mobile)
-    if (!checkIsStandalone()) {
-      setShowPWAPrompt(true);
+
+    const isIOSDevice = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    setIsIOS(isIOSDevice);
+
+    // Only show prompt if not already installed
+    if (checkIsStandalone()) {
+      setShowPWAPrompt(false);
+      return;
+    }
+
+    // For iOS: show manual install instructions (no beforeinstallprompt on iOS)
+    if (isIOSDevice) {
+      const dismissed = sessionStorage.getItem('pwa-prompt-dismissed');
+      if (!dismissed) {
+        setShowPWAPrompt(true);
+      }
     }
 
     const beforeInstallHandler = (e: any) => {
       e.preventDefault();
       setDeferredPrompt(e);
-      setShowPWAPrompt(true);
+      const dismissed = sessionStorage.getItem('pwa-prompt-dismissed');
+      if (!dismissed) {
+        setShowPWAPrompt(true);
+      }
     };
 
     const appInstalledHandler = () => {
       setShowPWAPrompt(false);
       setDeferredPrompt(null);
+      sessionStorage.removeItem('pwa-prompt-dismissed');
     };
 
     window.addEventListener('beforeinstallprompt', beforeInstallHandler);
@@ -510,32 +539,71 @@ export default function App() {
                     className={`text-[10px] font-medium mt-0.5 ${isDark ? "text-slate-400" : "text-slate-500"}`}
                   >
                     {language === "id"
-                      ? "Akses lebih cepat & ringan"
-                      : "Fast & lightweight access"}
+                      ? "Akses lebih cepat & pengalaman seperti aplikasi native"
+                      : "Fast access & native app-like experience"}
                   </p>
                 </div>
               </div>
 
+              {isIOS && (
+                <p className={`text-[10px] mt-3 leading-relaxed px-1 ${isDark ? "text-slate-400" : "text-slate-500"}`}>
+                  {language === "id"
+                    ? "Ketuk ikon Bagikan (⬆️) di browser Safari, lalu pilih \"Tambah ke Layar Utama\""
+                    : "Tap the Share icon (⬆️) in Safari, then select \"Add to Home Screen\""}
+                </p>
+              )}
+
               <div className="flex gap-2 mt-4">
                 <button
-                  onClick={() => setShowPWAPrompt(false)}
+                  onClick={() => {
+                    sessionStorage.setItem('pwa-prompt-dismissed', '1');
+                    setShowPWAPrompt(false);
+                  }}
                   className={`flex-1 py-2 font-bold text-xs rounded-xl transition-all ${isDark ? "bg-slate-800 text-slate-300 hover:bg-slate-700" : "bg-slate-100 text-slate-600 hover:bg-slate-200"}`}
                 >
                   {language === "id" ? "Nanti Saja" : "Later"}
                 </button>
-                <button
-                  onClick={() => {
-                    alert(
-                      language === "id"
-                        ? "Memicu prompt install PWA..."
-                        : "Triggering PWA install prompt...",
-                    );
-                    setShowPWAPrompt(false);
-                  }}
-                  className="flex-1 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs rounded-xl transition-all shadow-md shadow-emerald-500/20 active:scale-[0.98]"
-                >
-                  Install
-                </button>
+                {!isIOS && (
+                  <button
+                    onClick={async () => {
+                      if (deferredPrompt) {
+                        try {
+                          await deferredPrompt.prompt();
+                          const { outcome } = await deferredPrompt.userChoice;
+                          if (outcome === 'accepted') {
+                            setDeferredPrompt(null);
+                            setShowPWAPrompt(false);
+                          }
+                        } catch (err) {
+                          console.error('[PWA] Install prompt error:', err);
+                        }
+                      } else {
+                        // Fallback: show browser instructions
+                        setToastMessage(
+                          language === "id"
+                            ? "Gunakan menu browser (⋮) lalu pilih 'Install App' atau 'Tambah ke Layar Utama'"
+                            : "Use browser menu (⋮) then select 'Install App' or 'Add to Home Screen'"
+                        );
+                        sessionStorage.setItem('pwa-prompt-dismissed', '1');
+                        setShowPWAPrompt(false);
+                      }
+                    }}
+                    className="flex-1 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs rounded-xl transition-all shadow-md shadow-emerald-500/20 active:scale-[0.98]"
+                  >
+                    Install
+                  </button>
+                )}
+                {isIOS && (
+                  <button
+                    onClick={() => {
+                      sessionStorage.setItem('pwa-prompt-dismissed', '1');
+                      setShowPWAPrompt(false);
+                    }}
+                    className="flex-1 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs rounded-xl transition-all shadow-md shadow-emerald-500/20 active:scale-[0.98]"
+                  >
+                    {language === "id" ? "Mengerti" : "Got it"}
+                  </button>
+                )}
               </div>
             </div>
           </div>

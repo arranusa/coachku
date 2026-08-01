@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background -->
+  <rect width="512" height="512" rx="112" fill="#0f172a"/>
+  <!-- Green gradient accent bar -->
+  <rect x="0" y="360" width="512" height="152" rx="112" fill="#10b981" opacity="0.15"/>
+  <rect x="0" y="400" width="512" height="112" rx="0" fill="#10b981" opacity="0.1"/>
+  <rect x="0" y="400" width="512" height="112" rx="112" fill="#10b981" opacity="0.1"/>
+  <!-- Dumbbell icon -->
+  <!-- Left weight plate outer -->
+  <rect x="60" y="200" width="52" height="112" rx="18" fill="#10b981"/>
+  <!-- Left weight plate inner -->
+  <rect x="76" y="220" width="20" height="72" rx="8" fill="#0f172a"/>
+  <!-- Left bar -->
+  <rect x="112" y="240" width="56" height="32" rx="6" fill="#34d399"/>
+  <!-- Center bar -->
+  <rect x="168" y="232" width="176" height="48" rx="8" fill="#6ee7b7"/>
+  <!-- Right bar -->
+  <rect x="344" y="240" width="56" height="32" rx="6" fill="#34d399"/>
+  <!-- Right weight plate outer -->
+  <rect x="400" y="200" width="52" height="112" rx="18" fill="#10b981"/>
+  <!-- Right weight plate inner -->
+  <rect x="416" y="220" width="20" height="72" rx="8" fill="#0f172a"/>
+  <!-- Text: CK -->
+  <text x="256" y="448" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="80" fill="#10b981" text-anchor="middle" letter-spacing="4">CK</text>
+</svg>
