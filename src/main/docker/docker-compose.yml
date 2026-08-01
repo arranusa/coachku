@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile.jvm
     container_name: coachku
     ports:
-      - "8091:8080"
+      - "8092:8080"
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080/q/health/live" ]
       interval: 10s
